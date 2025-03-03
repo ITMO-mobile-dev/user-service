@@ -18,7 +18,7 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 kotlin {
-    jvmToolchain(17) // Указываем, что компилировать нужно под JDK 17
+    jvmToolchain(17)
 }
 
 repositories {
@@ -26,6 +26,13 @@ repositories {
 }
 
 dependencies {
+   testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation("io.ktor:ktor-client-mock:2.3.9")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    testImplementation(kotlin("test"))
+    implementation("org.apache.kafka:kafka-streams:3.6.1")
+    implementation("org.apache.kafka:kafka-clients:3.6.1")
     implementation("io.lettuce:lettuce-core:6.2.5.RELEASE")
     implementation("org.postgresql:postgresql:$postgresql_driver_version")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
@@ -38,5 +45,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
     testImplementation("io.ktor:ktor-server-test-host")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

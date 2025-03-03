@@ -1,40 +1,43 @@
 # user-service
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+## Настройки проекта
 
-Here are some useful links to get you started:
+### Общие настройки
+  - Версия JVM: `17`
+  - Проект запускается по адресу http://127.0.0.1:8081 (или http://localhost:8081)
 
-- [Ktor Documentation](https://ktor.io/docs/home.html)
-- [Ktor GitHub page](https://github.com/ktorio/ktor)
-- The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need
-  to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
+### Рабочие URL
 
-## Features
+  - GET: `http://localhost:8081/micro1/hello` - выводится приветствие на экран
 
-Here's a list of features included in this project:
+  - GET: `http://localhost:8081/micro1/postgres` - вывод всех записей из таблицы `People` из PostgreSQL (таблица создаётся автоматически при запуске проекта)
 
-| Name                                       | Description                       |
-| --------------------------------------------|----------------------------------- |
-| [Routing](https://start.ktor.io/p/routing) | Provides a structured routing DSL |
+  - POST: `http://localhost:8081/micro1/postgres` - создание новой записи в таблице Postgres (при отправке запроса необходимо передать параметры `name` и `age`, советую использовать Postman)
 
-## Building & Running
+  - GET: `http://localhost:8081//micro1/redis/set/{key}/{value}` - создание пары `ключ-значение` в БД Redis. Прямо в ссылке передаётся ключ `key` (например `name`) и значение `value` (например `Максим`)
 
-To build or run the project, use one of the following tasks:
+  - GET: `http://localhost:8081//micro1/redis/get/{key}` - получение значения по ключу из БД Redis
 
-| Task                          | Description                                                          |
-| -------------------------------|---------------------------------------------------------------------- |
-| `./gradlew test`              | Run the tests                                                        |
-| `./gradlew build`             | Build everything                                                     |
-| `buildFatJar`                 | Build an executable JAR of the server with all dependencies included |
-| `buildImage`                  | Build the docker image to use with the fat JAR                       |
-| `publishImageToLocalRegistry` | Publish the docker image locally                                     |
-| `run`                         | Run the server                                                       |
-| `runDocker`                   | Run using the local docker image                                     |
+  - GET: `http://localhost:8081//micro1/kafka` - создаёт `Producer` и `Consumer` Кафки. `Producer` отправляет сообщение, `Consumer` получает его и выводит переданное сообщение по этой же ссылке
 
-If the server starts successfully, you'll see the following output:
 
-```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
-```
+### 1. PostgreSQL
+  - Ссылка для подключения к Postgres:
+  `jdbc:postgresql://localhost:5432/ITMO-mobile`
+  - Название БД: `ITMO-mobile`
+  - Порт: `5432`
+  - Имя пользователя: `postgres`
+  - Пароль: `123`
+
+### 2. Redis
+  - ссылка для подключения к Redis: `redis://localhost:6379` (используется внутри программы)
+
+### 3. Kafka
+  - порт Zookeeper\`a: `2181`
+  - порт консьюмера и продюсера: `9092`
+
+
+
+
+
 
