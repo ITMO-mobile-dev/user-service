@@ -1,6 +1,10 @@
 package com
 
 import com.database.PersonDaoImpl
+import com.kafka.consumeMessages
+import com.kafka.createConsumer
+import com.kafka.createProducer
+import com.kafka.produceMessages
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -61,7 +65,7 @@ fun Application.configureRouting(dao: PersonDaoImpl, redisCommands: RedisCommand
         /**
          * Добавляет новую запись в мапу базы данных Redis. {key} - ключ для мапы, {value} - значение
          */
-        get("/redis/set/{key}/{value}") {
+        get("/micro1/redis/set/{key}/{value}") {
             val key = call.parameters["key"] ?: "defaultKey"
             val value = call.parameters["value"] ?: "defaultValue"
             redisCommands.set(key, value)
@@ -71,10 +75,18 @@ fun Application.configureRouting(dao: PersonDaoImpl, redisCommands: RedisCommand
         /**
          * Достаёт запись по ключу мапы в БД Redis
          */
-        get("/redis/get/{key}") {
+        get("/micro1/redis/get/{key}") {
             val key = call.parameters["key"] ?: "defaultKey"
             val value = redisCommands.get(key)
             call.respondText("Value for key '$key': $value")
+        }
+
+        /**
+         *
+         */
+        get("/micro1/kafka"){
+            createProducer().produceMessages("micro1")
+            call.respondText(createConsumer().consumeMessages("micro1"))
         }
     }
 }

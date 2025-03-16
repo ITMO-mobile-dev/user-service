@@ -3,6 +3,8 @@ package com
 import com.database.DatabaseFactory
 import com.database.PersonDao
 import com.database.PersonDaoImpl
+import com.kafka.createProducer
+import com.kafka.produceMessages
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
