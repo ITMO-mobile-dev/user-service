@@ -1,14 +1,11 @@
-val kotlin_version: String by project
-val logback_version: String by project
-val postgresql_driver_version: String by project
-val exposed_version: String by project
-val ktor_version: String by project
+
 plugins {
-    kotlin("jvm") version "2.1.10"
-    id("io.ktor.plugin") version "3.1.1"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlin.plugin.serialization)
 }
 
-group = "com"
+group = "user"
 version = "0.0.1"
 
 application {
@@ -17,37 +14,38 @@ application {
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
-kotlin {
-    jvmToolchain(17)
-}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-   testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
-    testImplementation("io.ktor:ktor-client-mock:2.3.9")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    testImplementation(kotlin("test"))
-    implementation("org.apache.kafka:kafka-streams:3.6.1")
-    implementation("org.apache.kafka:kafka-clients:3.6.1")
-    implementation("io.lettuce:lettuce-core:6.2.5.RELEASE")
-    implementation("org.postgresql:postgresql:$postgresql_driver_version")
-    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-server-core")
-    implementation("io.ktor:ktor-server-netty")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.ktor:ktor-server-config-yaml")
-    testImplementation("io.ktor:ktor-server-test-host")
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.config.yaml)
+    implementation(libs.ktor.server.test.host)
 
-}
+    implementation(libs.postgresql)
 
-tasks.test {
-    useJUnitPlatform()
+    implementation(libs.logback.classic)
+
+    testImplementation(libs.kotlin.test.junit)
+
+    implementation(libs.kafka.streams)
+    implementation(libs.kafka.clients)
+
+    implementation(libs.lettuce.core)
+
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.dao)
+    implementation(libs.exposed.jdbc)
+
+    implementation(libs.kotlinx.coroutines.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    testImplementation(libs.ktor.client.mock)
+
+    testImplementation(libs.junit.jupiter)
 }
